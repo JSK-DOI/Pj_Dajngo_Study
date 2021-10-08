@@ -1,5 +1,5 @@
 CREATE TABLE M_USR (
-	 SYN_CD  		char(6)
+	 SYN_CD  		char(6) NOT NULL
 	,SYN_NM_S_KJ    varchar(50)
 	,SYN_NM_N_KJ    varchar(50)
 	,SYN_NM_S_KN    varchar(50)
@@ -11,5 +11,6 @@ CREATE TABLE M_USR (
 	,SYN_KNGN   	char(2)
 	,LGN_PSS    	varchar(100)
 	,SYN_KBN    	char(2)
+	,PRIMARY KEY(SYN_CD)	
 )
 ;

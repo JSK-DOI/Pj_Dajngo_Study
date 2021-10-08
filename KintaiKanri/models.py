@@ -10,16 +10,17 @@ from django.db import models
 
 class MClndr(models.Model):
     clndr_dt = models.DateField(db_column='CLNDR_DT', primary_key=True)  # Field name made lowercase.
-    pj_no = models.CharField(db_column='PJ_NO', max_length=8, blank=True, null=True)  # Field name made lowercase.
+    pj_no = models.CharField(db_column='PJ_NO', max_length=8)  # Field name made lowercase.
     wrk_dt_kbn = models.CharField(db_column='WRK_DT_KBN', max_length=2, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'm_clndr'
+        unique_together = (('clndr_dt', 'pj_no'),)
 
 
 class MPjKnr(models.Model):
-    pj_no = models.CharField(db_column='PJ_NO', max_length=8, blank=True, null=True)  # Field name made lowercase.
+    pj_no = models.CharField(db_column='PJ_NO', primary_key=True, max_length=8)  # Field name made lowercase.
     pj_nm = models.CharField(db_column='PJ_NM', max_length=100, blank=True, null=True)  # Field name made lowercase.
     pj_st_time = models.DateTimeField(db_column='PJ_ST_TIME', blank=True, null=True)  # Field name made lowercase.
     rst_st_time = models.DateTimeField(db_column='RST_ST_TIME', blank=True, null=True)  # Field name made lowercase.
@@ -33,17 +34,18 @@ class MPjKnr(models.Model):
 
 
 class MPjSzk(models.Model):
-    syn_cd = models.CharField(db_column='SYN_CD', max_length=6, blank=True, null=True)  # Field name made lowercase.
-    pj_kbn = models.CharField(db_column='PJ_KBN', max_length=2, blank=True, null=True)  # Field name made lowercase.
+    syn_cd = models.CharField(db_column='SYN_CD', primary_key=True, max_length=6)  # Field name made lowercase.
+    pj_kbn = models.CharField(db_column='PJ_KBN', max_length=2)  # Field name made lowercase.
     pj_no = models.CharField(db_column='PJ_NO', max_length=8, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'm_pj_szk'
+        unique_together = (('syn_cd', 'pj_kbn'),)
 
 
 class MUsr(models.Model):
-    syn_cd = models.CharField(db_column='SYN_CD', max_length=6, blank=True, null=True)  # Field name made lowercase.
+    syn_cd = models.CharField(db_column='SYN_CD', primary_key=True, max_length=6)  # Field name made lowercase.
     syn_nm_s_kj = models.CharField(db_column='SYN_NM_S_KJ', max_length=50, blank=True, null=True)  # Field name made lowercase.
     syn_nm_n_kj = models.CharField(db_column='SYN_NM_N_KJ', max_length=50, blank=True, null=True)  # Field name made lowercase.
     syn_nm_s_kn = models.CharField(db_column='SYN_NM_S_KN', max_length=50, blank=True, null=True)  # Field name made lowercase.
@@ -62,21 +64,21 @@ class MUsr(models.Model):
 
 
 class TKnti(models.Model):
-    syn_cd = models.CharField(db_column='SYN_CD', max_length=6, blank=True, null=True)  # Field name made lowercase.
-    knti_dt = models.DateField(db_column='KNTI_DT', blank=True, null=True)  # Field name made lowercase.
+    syn_cd = models.CharField(db_column='SYN_CD', primary_key=True, max_length=6)  # Field name made lowercase.
+    knti_dt = models.DateField(db_column='KNTI_DT')  # Field name made lowercase.
     ido_kbn = models.CharField(db_column='IDO_KBN', max_length=1, blank=True, null=True)  # Field name made lowercase.
-    pj_no = models.CharField(db_column='PJ_NO', max_length=8, blank=True, null=True)  # Field name made lowercase.
     rmrks = models.CharField(db_column='RMRKS', max_length=100, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 't_knti'
+        unique_together = (('syn_cd', 'knti_dt'),)
 
 
 class TKntiDtl(models.Model):
-    syn_cd = models.CharField(db_column='SYN_CD', max_length=6, blank=True, null=True)  # Field name made lowercase.
-    knti_dt = models.DateField(db_column='KNTI_DT', blank=True, null=True)  # Field name made lowercase.
-    pj_no = models.CharField(db_column='PJ_NO', max_length=8, blank=True, null=True)  # Field name made lowercase.
+    syn_cd = models.CharField(db_column='SYN_CD', primary_key=True, max_length=6)  # Field name made lowercase.
+    knti_dt = models.DateField(db_column='KNTI_DT')  # Field name made lowercase.
+    pj_no = models.CharField(db_column='PJ_NO', max_length=8)  # Field name made lowercase.
     wrk_st_time = models.DateTimeField(db_column='WRK_ST_TIME', blank=True, null=True)  # Field name made lowercase.
     wrk_ed_time = models.DateTimeField(db_column='WRK_ED_TIME', blank=True, null=True)  # Field name made lowercase.
     act_hrs = models.DecimalField(db_column='ACT_HRS', max_digits=3, decimal_places=1, blank=True, null=True)  # Field name made lowercase.
@@ -87,3 +89,4 @@ class TKntiDtl(models.Model):
     class Meta:
         managed = False
         db_table = 't_knti_dtl'
+        unique_together = (('syn_cd', 'knti_dt', 'pj_no'),)

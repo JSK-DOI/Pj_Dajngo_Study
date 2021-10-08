@@ -9,7 +9,7 @@ from django.db import models
 
 
 class MClndr(models.Model):
-    clndr_dt = models.DateField(db_column='CLNDR_DT', blank=True, null=True)  # Field name made lowercase.
+    clndr_dt = models.DateField(db_column='CLNDR_DT', primary_key=True)  # Field name made lowercase.
     pj_no = models.CharField(db_column='PJ_NO', max_length=8, blank=True, null=True)  # Field name made lowercase.
     wrk_dt_kbn = models.CharField(db_column='WRK_DT_KBN', max_length=2, blank=True, null=True)  # Field name made lowercase.
 

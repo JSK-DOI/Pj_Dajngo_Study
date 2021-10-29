@@ -23,10 +23,10 @@ class MClndr(models.Model):
 class MPjKnr(models.Model):
     pj_no = models.CharField(db_column='PJ_NO', primary_key=True, max_length=8)  # Field name made lowercase.
     pj_nm = models.CharField(db_column='PJ_NM', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    pj_st_time = models.DateTimeField(db_column='PJ_ST_TIME', blank=True, null=True)  # Field name made lowercase.
-    rst_st_time = models.DateTimeField(db_column='RST_ST_TIME', blank=True, null=True)  # Field name made lowercase.
-    rst_ed_time = models.DateTimeField(db_column='RST_ED_TIME', blank=True, null=True)  # Field name made lowercase.
-    pj_ed_time = models.DateTimeField(db_column='PJ_ED_TIME', blank=True, null=True)  # Field name made lowercase.
+    pj_st_time = models.TimeField(db_column='PJ_ST_TIME', blank=True, null=True)  # Field name made lowercase.
+    rst_st_time = models.TimeField(db_column='RST_ST_TIME', blank=True, null=True)  # Field name made lowercase.
+    rst_ed_time = models.TimeField(db_column='RST_ED_TIME', blank=True, null=True)  # Field name made lowercase.
+    pj_ed_time = models.TimeField(db_column='PJ_ED_TIME', blank=True, null=True)  # Field name made lowercase.
     act_hrs = models.DecimalField(db_column='ACT_HRS', max_digits=3, decimal_places=1, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
@@ -80,8 +80,8 @@ class TKntiDtl(models.Model):
     syn_cd = models.CharField(db_column='SYN_CD', primary_key=True, max_length=6)  # Field name made lowercase.
     knti_dt = models.DateField(db_column='KNTI_DT')  # Field name made lowercase.
     pj_no = models.CharField(db_column='PJ_NO', max_length=8)  # Field name made lowercase.
-    wrk_st_time = models.DateTimeField(db_column='WRK_ST_TIME', blank=True, null=True)  # Field name made lowercase.
-    wrk_ed_time = models.DateTimeField(db_column='WRK_ED_TIME', blank=True, null=True)  # Field name made lowercase.
+    wrk_st_time = models.TimeField(db_column='WRK_ST_TIME', blank=True, null=True)  # Field name made lowercase.
+    wrk_ed_time = models.TimeField(db_column='WRK_ED_TIME', blank=True, null=True)  # Field name made lowercase.
     act_hrs = models.DecimalField(db_column='ACT_HRS', max_digits=3, decimal_places=1, blank=True, null=True)  # Field name made lowercase.
     rst_hrs = models.DecimalField(db_column='RST_HRS', max_digits=3, decimal_places=1, blank=True, null=True)  # Field name made lowercase.
     mdnght_wrk_hrs = models.DecimalField(db_column='MDNGHT_WRK_HRS', max_digits=3, decimal_places=1, blank=True, null=True)  # Field name made lowercase.

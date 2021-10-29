@@ -2,8 +2,8 @@ create table T_KNTI_DTL	(
 	 SYN_CD				char(6) NOT NULL
 	,KNTI_DT			date NOT NULL
 	,PJ_NO				varchar(8) NOT NULL
-	,WRK_ST_TIME		datetime
-	,WRK_ED_TIME		datetime
+	,WRK_ST_TIME		time
+	,WRK_ED_TIME		time
 	,ACT_HRS			DECIMAL(3, 1)
 	,RST_HRS			DECIMAL(3, 1)
 	,MDNGHT_WRK_HRS		DECIMAL(3, 1)

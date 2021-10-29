@@ -6,6 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.urls import reverse_lazy
 
 
 class MClndr(models.Model):
@@ -90,3 +91,6 @@ class TKntiDtl(models.Model):
         managed = False
         db_table = 't_knti_dtl'
         unique_together = (('syn_cd', 'knti_dt', 'pj_no'),)
+    
+    def get_absolute_url(self):
+        return reverse_lazy("index")

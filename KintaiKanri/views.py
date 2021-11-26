@@ -45,5 +45,5 @@ class SearchView(ListView):
         else:
             object_list = TKntiDtl.objects.all()
         return object_list
-
+#コニシ
     

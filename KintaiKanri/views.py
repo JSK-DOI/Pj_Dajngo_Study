@@ -25,7 +25,7 @@ class PjKanriView(ListView):
         if strFind_Key:
             object_list = MPjKnr.objects.filter(
                 # Q(pj_no=strFind_Key) | Q(pj_nm=strFind_Key)
-                Q(pj_no__icontains=strFind_Key) | Q(pj_nm__icontains=strFind_Key)
+                Q(pj_no__icontains=strFind_Key) | Q(pj_nm__icontains=strFind_Key) | Q(act_hrs__icontains=strFind_Key)
             )
         else:
             object_list = MPjKnr.objects.all()

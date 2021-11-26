@@ -32,4 +32,18 @@ class PjKanriView(ListView):
 
         # return super().get_queryset()
         return object_list
+
+class SearchView(ListView):
+    model = TKntiDtl
+    template_name = 'KintaiKanri/searchview.html'
+    def get_queryset(self):
+        q_word = self.request.GET.get('query')
+ 
+        if q_word:
+            object_list = TKntiDtl.objects.filter(
+                Q(syn_cd__icontains=q_word) | Q(knti_dt__icontains=q_word))
+        else:
+            object_list = TKntiDtl.objects.all()
+        return object_list
+
     

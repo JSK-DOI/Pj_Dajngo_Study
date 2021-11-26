@@ -7,4 +7,5 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('create/', views.KintaiNyuryoku.as_view(), name="kintainyuryoku"),
     path('pjkanriview/', views.PjKanriView.as_view(), name="PjKanriView"),
+    path('search/', views.SearchView.as_view(), name='searchview'),
 ]

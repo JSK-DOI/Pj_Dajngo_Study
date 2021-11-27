@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang = "ja">
+    <head>
+        <title>勤怠管理システム</title>
+    </head>
+    <body>
+        <div>
+            <h1>勤怠情報照会画面</h1>
+            <form action = "" method = "GET">
+                {{ form.non_field_errors }}
+                {% for field in form %}
+                <div>
+                    {{ field }}
+                    {{ field.errors }}
+                </div>
+                {% endfor %}
+                {% csrf_token %}
+                <button type = "submit" name = "action" value = "confirm">確認</button>
+                <!--button type = "button" name = "action" 
+                onclick = "location.href=''">戻る</button-->
+            </form>
+        </div>
+    </body>
+</html>

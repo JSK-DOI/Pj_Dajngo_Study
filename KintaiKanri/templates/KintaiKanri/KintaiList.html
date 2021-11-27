@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang = "ja">
+    <head>
+        <title>勤怠管理システム</title>
+    </head>
+    <body>
+
+   <div class = "entry_dv1">個人の勤怠確認画面（月）</div>
+{{ syn_cd }}
+{{ pj_no }}
+    <div class = "month_top">
+    <div class = "month_left">
+        <div class = "cal_month_header">
+            <a href="{% url 'kintailist' month_previous.year month_previous.month %}"
+            class = "cal_div1">前月</a>
+            <a href="{% url 'kintailist' month_next.year month_next.month %}"
+            class = "cal_div2">次月</a>
+            <div class = "cal_div3">{{ month_current | date:"Y年m月" }}</div>
+        </div>
+
+        <table class = "calendar_month">
+            <tbody>
+                {% for week in month_days %}
+                    {% for day in week %}
+                        {% if month_current.month == day.month %}
+                            <tr><td class = "">{{ day|date:'Y/m/d (D)' }}</td></tr>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+    </body>
+</html>

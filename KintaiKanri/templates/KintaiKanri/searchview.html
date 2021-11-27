@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+    <meta charset="utf-8" />
+    <title>ListViewサンプル</title>
+</head>
+ 
+<body>
+ 
+     <form action="" method="get">
+        <input name="query" value="{{ request.GET.query }}" type="text">
+        <button type="submit">検索する</button>
+    </form>
+    
+    <table border="1">
+        <tr>
+            <th>syn_cd</th>
+            <th>knti_dt</th>
+            <th>pj_no</th>
+            <th>wrk_st_time</th>
+            <th>wrk_ed_time</th>
+            <th>act_hrs</th>
+            <th>rst_hrs</th>
+            <th>mdnght_wrk_hrs</th>
+            <th>nn_rglr_wrk_hrs</th>
+        </tr>
+        {% for book in object_list %}
+        <tr>
+            <td>{{ book.syn_cd }}</td>
+            <td>{{ book.knti_dt }}</td>
+            <td>{{ book.pj_no }}</td>
+            <td>{{ book.wrk_st_time }}</td>
+            <td>{{ book.wrk_ed_time }}</td>
+            <td>{{ book.act_hrs }}</td>
+            <td>{{ book.rst_hrs }}</td>
+            <td>{{ book.mdnght_wrk_hrs }}</td>
+            <td>{{ book.nn_rglr_wrk_hrs }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+ 
+</body>
+ 
+</html>

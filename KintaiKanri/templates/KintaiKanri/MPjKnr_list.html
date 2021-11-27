@@ -1,0 +1,37 @@
+
+{% block main %}
+<h2>プロジェクト管理画面</h2>
+
+<body>
+    <!-- 検索フォーム -->
+    <form action="" method="get">
+        <input name="PJknr_list_Find" value="{{ request.GET.PJknr_list_Find }}" type="text">
+        <button type="submit">検索する</button>
+    </form>
+
+    <!-- リスト表示 -->
+    <table border="1">
+        <tr>
+            <td>プロジェクトNo</td>
+            <td>PJ名</td>
+            <td>始業時間</td>
+            <td>休憩開始</td>
+            <td>休憩終了</td>
+            <td>終業時間</td>
+            <td>実働時間</td>
+        </tr>
+        {% for MPjKnr in object_list %}
+        <tr>
+            <td>{{ MPjKnr.pj_no }}</td>
+            <td>{{ MPjKnr.pj_nm }}</td>
+            <td>{{ MPjKnr.pj_st_time }}</td>
+            <td>{{ MPjKnr.rst_st_time }}</td>
+            <td>{{ MPjKnr.rst_ed_time }}</td>
+            <td>{{ MPjKnr.pj_ed_time }}</td>
+            <td>{{ MPjKnr.act_hrs }}</td> 
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+{% endblock %}

@@ -9,9 +9,10 @@ from django.urls import reverse
 from urllib.parse import urlencode
 from datetime import datetime as dt
 from django.db.models import Q 
+from django.shortcuts import render
 
-def index(request):
-    return HttpResponse("Hello, world. ")
+def mainmenu(request):
+  return render(request, 'KintaiKanri/Mainmenu.html')
 
 class KintaiNyuryoku(CreateView):
     model = TKntiDtl
@@ -92,4 +93,3 @@ class SearchView(ListView):
             object_list = TKntiDtl.objects.all()
         return object_list
 
-    

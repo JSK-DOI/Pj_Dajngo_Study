@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.list import ListView
 from .models import TKntiDtl, TKntiDtl, MPjKnr
-from .forms import KintaiNyuryokuForm, KintaiListTopForm
+from .forms import KintaiNyuryokuForm, KintaiListTopForm, PjKanriNyuryokuForm   
 from .mixins import MonthCalendarMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -78,6 +78,11 @@ class PjKanriView(ListView):
 
         # return super().get_queryset()
         return object_list
+
+class PjKanriNyuryoku(CreateView):
+    model = MPjKnr
+    form_class = PjKanriNyuryokuForm
+    template_name = "KintaiKanri/PjKanriNyuryoku.html"
 
 class SearchView(ListView):
     model = TKntiDtl

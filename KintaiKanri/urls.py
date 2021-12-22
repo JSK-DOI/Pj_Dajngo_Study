@@ -10,5 +10,6 @@ urlpatterns = [
     path('kintailist/<int:year>/<int:month>/', views.KintaiList.as_view(), name = 'kintailist'),
     path('kintailist/', views.KintaiList.as_view(), name = 'kintailist'),
     path('pjkanriview/', views.PjKanriView.as_view(), name="PjKanriView"),
+    path('pjkanrinyuryoku/', views.PjKanriNyuryoku.as_view(), name="PjKanriNyuryoku"),
     path('search/', views.SearchView.as_view(), name='searchview'),
 ]

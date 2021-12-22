@@ -59,6 +59,9 @@ class KintaiList(MonthCalendarMixin, ListView):
         context['pj_no'] = self.request.GET.get('pj_no')
         return context
 
+#----------------------------------------
+#--- プロジェクト管理画面
+#----------------------------------------
 class PjKanriView(ListView):
     # model = MPjKnr
  #  template_name = ".html"

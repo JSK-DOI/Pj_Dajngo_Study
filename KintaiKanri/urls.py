@@ -4,8 +4,8 @@ from django.urls.resolvers import _PATH_PARAMETER_COMPONENT_RE
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('create/', views.KintaiNyuryoku.as_view(), name="kintainyuryoku"),
+    path('', views.mainmenu,  name='mainnenu'),
+    path('kintainyuryoku/', views.KintaiNyuryoku.as_view(), name="kintainyuryoku"),
     path('kintailisttop/', views.KintaiListTop.as_view(), name="kintailisttop"),
     path('kintailist/<int:year>/<int:month>/', views.KintaiList.as_view(), name = 'kintailist'),
     path('kintailist/', views.KintaiList.as_view(), name = 'kintailist'),

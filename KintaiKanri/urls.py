@@ -12,8 +12,7 @@ urlpatterns = [
     path('pjkanriview/', views.PjKanriView.as_view(), name="PjKanriView"),
     path('pjkanrinyuryoku/', views.PjKanriNyuryoku.as_view(), name="PjKanriNyuryoku"),
     path('search/', views.SearchView.as_view(), name='searchview'),
-#   20220117コミットテスト用コメント
-#    path('muser_list/', views.MUserList.as_view(), name="muserlist"),
-#    path('muser_detail/<str:pk>/', views.MUserDetail.as_view(), name="muserdetail"),
-#    path('muser_create/', views.MUserCreate.as_view(),name="musercreate"),
+    path('muser_list/', views.MUserList.as_view(), name="muserlist"),
+    path('muser_detail/<str:pk>/', views.MUserDetail.as_view(), name="muserdetail"),
+    path('muser_create/', views.MUserCreate.as_view(),name="musercreate"),
 ]

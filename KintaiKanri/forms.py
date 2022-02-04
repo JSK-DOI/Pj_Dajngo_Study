@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import fields
-from .models import TKntiDtl, MPjKnr
+from .models import TKntiDtl, MPjKnr, MClndr
  
 class KintaiNyuryokuForm(forms.ModelForm):
     class Meta:
@@ -20,5 +20,19 @@ class PjKanriNyuryokuForm(forms.ModelForm):
     class Meta:
         model = MPjKnr
         fields = ('pj_no', 'pj_nm', 'pj_st_time', 'rst_st_time', 'rst_ed_time', 'pj_ed_time', 'act_hrs')
+
+class CalendarNyuryokuForm(forms.ModelForm):
+    """シンプルなスケジュール登録用フォーム"""
+    class Meta:
+        model = MClndr
+        fields = ('clndr_dt', 'pj_no', 'wrk_dt_kbn',)
+        labels = {
+           'clndr_dt':'年月日',
+           'pj_no':'プロジェクト番号',
+           'wrk_dt_kbn':'稼働区分',
+           }
+        widgets = {
+            'clndr_dt': forms.HiddenInput,
+        }
 
 

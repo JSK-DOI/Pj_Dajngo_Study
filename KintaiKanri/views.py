@@ -1,20 +1,20 @@
 from django.views import generic
 from django.db.models import fields
 from django.http import HttpResponse
-from django.views.generic.edit import CreateView, FormView
+from django.views.generic.edit import CreateView, FormView, UpdateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic import UpdateView
-from .models import TKntiDtl, TKntiDtl, MPjKnr
-from .forms import KintaiNyuryokuForm, KintaiListTopForm, PjKanriNyuryokuForm   
+from .models import TKntiDtl, TKntiDtl, MPjKnr, MClndr
+from .forms import KintaiNyuryokuForm, KintaiListTopForm, PjKanriNyuryokuForm, CalendarNyuryokuForm   
 from .mixins import MonthCalendarMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from urllib.parse import urlencode
 from datetime import datetime as dt
 from django.db.models import Q 
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import MUsr
+from . import mixins
 
 def mainmenu(request):
   return render(request, 'KintaiKanri/Mainmenu.html')
@@ -130,6 +130,27 @@ class MUserCreate(CreateView) :
     template_name = 'KintaiKanri/muser_create.html'
     # 画面上に表示させる項目の指定
     fields = ('syn_cd','syn_nm_s_kj','syn_nm_n_kj','syn_nm_s_kn','syn_nm_n_kn','nysy_dt','pj_add_dt','pj_del_dt','e_mail_adr','syn_kngn','lgn_pss','syn_kbn')
+
+# カレンダー管理画面
+class CalendarNyuryoku(mixins.MonthWithFormsMixin, generic.View):
+    """フォーム付きの月間カレンダーを表示するビュー"""
+    template_name = 'KintaiKanri/CalendarNyuryoku.html'
+    model = MClndr
+    date_field = 'clndr_dt'
+    form_class = CalendarNyuryokuForm
+
+    def get(self, request, **kwargs):
+        context = self.get_month_calendar()
+        return render(request, self.template_name, context)
+
+    def post(self, request, **kwargs):
+        context = self.get_month_calendar()
+        formset = context['month_formset']
+        if formset.is_valid():
+            formset.save()
+            return redirect('calendarnyuryoku')
+
+        return render(request, self.template_name, context)
 
  # ユーザ編集画面
  # MUsrUpdate    

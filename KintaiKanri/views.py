@@ -1,17 +1,22 @@
+from django.views import generic
+from django.db.models import fields
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from .models import TKntiDtl, TKntiDtl, MPjKnr
-from .forms import KintaiNyuryokuForm, KintaiListTopForm
+from .forms import KintaiNyuryokuForm, KintaiListTopForm, PjKanriNyuryokuForm   
 from .mixins import MonthCalendarMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from urllib.parse import urlencode
 from datetime import datetime as dt
 from django.db.models import Q 
+from django.shortcuts import render
+from .models import MUsr
 
-def index(request):
-    return HttpResponse("Hello, world. ")
+def mainmenu(request):
+  return render(request, 'KintaiKanri/Mainmenu.html')
 
 class KintaiNyuryoku(CreateView):
     model = TKntiDtl
@@ -59,6 +64,9 @@ class KintaiList(MonthCalendarMixin, ListView):
         context['pj_no'] = self.request.GET.get('pj_no')
         return context
 
+#----------------------------------------
+#--- プロジェクト管理画面
+#----------------------------------------
 class PjKanriView(ListView):
     # model = MPjKnr
  #  template_name = ".html"
@@ -76,6 +84,11 @@ class PjKanriView(ListView):
         # return super().get_queryset()
         return object_list
 
+class PjKanriNyuryoku(CreateView):
+    model = MPjKnr
+    form_class = PjKanriNyuryokuForm
+    template_name = "KintaiKanri/PjKanriNyuryoku.html"
+
 class SearchView(ListView):
     model = TKntiDtl
     template_name = 'KintaiKanri/searchview.html'
@@ -89,4 +102,29 @@ class SearchView(ListView):
             object_list = TKntiDtl.objects.all()
         return object_list
 
+#----------------------------------------
+#--- ユーザ管理画面
+#----------------------------------------
+class MUserList(generic.ListView):
+    model = MUsr
+    template_name = 'KintaiKanri/muser_list.html'
+
+    # ユーザ管理一覧に表示する項目をゲット
+    def get_queryset(self) :
+## とりあえず全件出力
+        users = MUsr.objects.all()
+        return users
+
+ # ユーザ詳細画面
+ # MUserDetail
+class MUserDetail(DetailView) :
+    model = MUsr
+    template_name = 'KintaiKanri/muser_detail.html'
     
+   
+ # ユーザ登録画面   
+class MUserCreate(CreateView) :
+    model = MUsr
+    template_name = 'KintaiKanri/muser_create.html'
+    # 画面上に表示させる項目の指定
+    fields = ('syn_cd','syn_nm_s_kj','syn_nm_n_kj','syn_nm_s_kn','syn_nm_n_kn','nysy_dt','pj_add_dt','pj_del_dt','e_mail_adr','syn_kngn','lgn_pss','syn_kbn')

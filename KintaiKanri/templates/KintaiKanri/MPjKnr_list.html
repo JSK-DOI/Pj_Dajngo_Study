@@ -8,6 +8,9 @@
         <input name="PJknr_list_Find" value="{{ request.GET.PJknr_list_Find }}" type="text">
         <button type="submit">検索する</button>
     </form>
+    <form action="{% url "PjKanriNyuryoku" %}" method="get">
+        <button type="submit">新規登録</button>
+    </form>
 
     <!-- リスト表示 -->
     <table border="1">

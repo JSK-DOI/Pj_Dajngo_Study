@@ -33,6 +33,9 @@ class MPjKnr(models.Model):
         managed = False
         db_table = 'm_pj_knr'
 
+    def get_absolute_url(self): 
+        return reverse_lazy("PjKanriView") #CRUD時の戻り先指定
+
 
 class MPjSzk(models.Model):
     syn_cd = models.CharField(db_column='SYN_CD', primary_key=True, max_length=6)  # Field name made lowercase.

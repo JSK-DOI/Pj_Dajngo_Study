@@ -22,4 +22,5 @@ urlpatterns = [
         'calendarnyuryoku/<int:year>/<int:month>/',
         views.CalendarNyuryoku.as_view(), name='calendarnyuryoku'
     ), 
+    path('muser_update/<str:pk>',views.MUsrUpdate.as_view(),name='muserupdate'),
 ]

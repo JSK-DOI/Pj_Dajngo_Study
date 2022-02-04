@@ -1,0 +1,10 @@
+{% load static %}
+{% block main %}
+<h2>ユーザー編集画面</h2>
+<form action="" method="POST">{% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="更新">
+    <input type="submit" value="戻る">
+
+</form>
+{% endblock %}

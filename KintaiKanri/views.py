@@ -1,7 +1,7 @@
 from django.views import generic
 from django.db.models import fields
 from django.http import HttpResponse
-from django.views.generic.edit import CreateView, FormView
+from django.views.generic.edit import CreateView, FormView, UpdateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from .models import TKntiDtl, TKntiDtl, MPjKnr, MClndr

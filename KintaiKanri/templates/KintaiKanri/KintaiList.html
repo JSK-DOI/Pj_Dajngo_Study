@@ -13,6 +13,7 @@
         <div class = "cal_month_header">
             <a href="{% url 'kintailist' month_previous.year month_previous.month %}"
             class = "cal_div1">前月</a>
+            
             <a href="{% url 'kintailist' month_next.year month_next.month %}"
             class = "cal_div2">次月</a>
             <div class = "cal_div3">{{ month_current | date:"Y年m月" }}</div>

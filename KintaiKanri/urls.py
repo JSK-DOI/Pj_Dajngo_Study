@@ -15,4 +15,5 @@ urlpatterns = [
     path('muser_list/', views.MUserList.as_view(), name="muserlist"),
     path('muser_detail/<str:pk>/', views.MUserDetail.as_view(), name="muserdetail"),
     path('muser_create/', views.MUserCreate.as_view(),name="musercreate"),
+    path('muser_update/<str:pk>',views.MUsrUpdate.as_view(),name='muserupdate'),
 ]

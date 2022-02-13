@@ -10,23 +10,64 @@
 {{ pj_no }}
     <div class = "month_top">
     <div class = "month_left">
-        <div class = "cal_month_header">
+        <!--div class = "cal_month_header">
             <a href="{% url 'kintailist' month_previous.year month_previous.month %}"
             class = "cal_div1">前月</a>
             
             <a href="{% url 'kintailist' month_next.year month_next.month %}"
             class = "cal_div2">次月</a>
             <div class = "cal_div3">{{ month_current | date:"Y年m月" }}</div>
+        </div-->
+
+        <div class = "cal_month_header">
+            <form name = "back" action = "{% url 'kintailist' month_previous.year month_previous.month %}" method = "GET">
+                <input type="hidden" name="syn_cd" id="id_syn_cd" value = "{{ syn_cd }}">
+                <input type="hidden" name="pj_no" id="id_pj_no" value = "{{ pj_no }}">
+                <button type = "submit" name = "back" value = "confirm">前月</button>
+                {% csrf_token %}
+            </form>
+            <form name = "next" action = "{% url 'kintailist' month_next.year month_next.month %}" method = "GET">
+                <input type="hidden" name="syn_cd" id="id_syn_cd" value = "{{ syn_cd }}">
+                <input type="hidden" name="pj_no" id="id_pj_no" value = "{{ pj_no }}">
+                <button type = "submit" name = "next" value = "confirm">次月</button>
+                {% csrf_token %}
+            </form>
+            <form name = "next" action = "{% url 'kintailisttop' %}" method = "POST">
+                <button type = "submit" name = "top" value = "confirm">戻る</button>
+                {% csrf_token %}
+            </form>
         </div>
 
-        <table class = "calendar_month">
+        <table style = "border: 1px solid black;border-collapse: collapse;width: 600px">
+            <thead style="background-color:rgb(217,217,217);">
+                <tr>
+                    <td style = "border: 1px solid black">日付</td>
+                    <td style = "border: 1px solid black">開始</td>
+                    <td style = "border: 1px solid black">終了</td>
+                    <td style = "border: 1px solid black">実働</td>
+                    <td style = "border: 1px solid black">休憩</td>
+                    <td style = "border: 1px solid black">深夜</td>
+                    <td style = "border: 1px solid black">規定外</td>
+                </tr>
+            </thead>
             <tbody>
-                {% for week in month_days %}
-                    {% for day in week %}
-                        {% if month_current.month == day.month %}
-                            <tr><td class = "">{{ day|date:'Y/m/d (D)' }}</td></tr>
-                        {% endif %}
-                    {% endfor %}
+                {% for day, val in new_list.items %}
+                    {% if day|date:'D' == '土' %}
+                        <tr style = "border: 1px solid black;background-color:rgb(197,214,241);">
+                    {% elif day|date:'D' == '日' %}
+                        <tr style = "border: 1px solid black;background-color:rgb(230,184,183);">
+                    {% else %}
+                        <tr style = "border: 1px solid black">
+                    {% endif %}
+                    
+                        <td style = "border: 1px solid black">{{ day|date:'Y/m/d (D)' }}</td>
+                        <td style = "border: 1px solid black">{{ val.wrk_st_time }}</td>
+                        <td style = "border: 1px solid black">{{ val.wrk_ed_time }}</td>
+                        <td style = "border: 1px solid black">{{ val.act_hrs }}</td>
+                        <td style = "border: 1px solid black">{{ val.rst_hrs }}</td>
+                        <td style = "border: 1px solid black">{{ val.mdnght_wrk_hrs }}</td>
+                        <td style = "border: 1px solid black">{{ val.nn_rglr_wrk_hrs }}</td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>

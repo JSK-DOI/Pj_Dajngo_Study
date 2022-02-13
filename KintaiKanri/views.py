@@ -4,16 +4,15 @@ from django.http import HttpResponse
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from .models import TKntiDtl, TKntiDtl, MPjKnr
+from .models import TKntiDtl, MPjKnr, MUsr
 from .forms import KintaiNyuryokuForm, KintaiListTopForm, PjKanriNyuryokuForm   
 from .mixins import MonthCalendarMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from urllib.parse import urlencode
-from datetime import datetime as dt
+from datetime import datetime, date
 from django.db.models import Q 
 from django.shortcuts import render
-from .models import MUsr
 
 def mainmenu(request):
   return render(request, 'KintaiKanri/Mainmenu.html')
@@ -29,7 +28,7 @@ class KintaiListTop(FormView):
     def get(self, request, *args, **kwargs):
         if "action" in self.request.GET:
             # 文字列⇒日付型に変更
-            knti_dt = dt.strptime(self.request.GET.get('knti_dt'),'%Y-%m-%d')
+            knti_dt = datetime.strptime(self.request.GET.get('knti_dt'),'%Y-%m-%d')
             # パラメータをdict型でセット
             paras = {
                 'syn_cd' : self.request.GET.get('syn_cd'),
@@ -51,9 +50,31 @@ class KintaiList(MonthCalendarMixin, ListView):
     template_name = 'KintaiKanri/KintaiList.html'
     model = TKntiDtl
     context_object_name = 'TKntiDtl_list'
-    #queryset = TKntiDtl.objects.none()
-    #queryset = TKntiDtl.objects.filter(syn_cd='21850',pj_no='72018021')
-    #paginate_by = 100
+
+    def get_queryset(self):
+        # パラメータ
+        v_month  = self.kwargs.get('month')
+        v_year   = self.kwargs.get('year')
+        v_syn_cd = self.request.GET.get('syn_cd')
+        v_pj_no  = self.request.GET.get('pj_no')
+        # 当月1日
+        if v_month and v_year:
+            dt1 = date(year=int(v_year), month=int(v_month), day=1)
+        else:
+            dt1 = date.today().replace(day=1)
+        # 次月1日
+        if dt1.month == 12:
+            dt2 = dt1.replace(year=dt1.year+1, month=1, day=1)
+        else:
+            dt2 = dt1.replace(month=dt1.month+1, day=1)
+        # 勤怠明細テーブル
+        queryset = TKntiDtl.objects.filter(
+            syn_cd       = v_syn_cd, 
+            pj_no        = v_pj_no,
+            knti_dt__gte = dt1,
+            knti_dt__lt  = dt2,
+            )
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -62,7 +83,30 @@ class KintaiList(MonthCalendarMixin, ListView):
         context.update(calendar_context)
         context['syn_cd'] = self.request.GET.get('syn_cd')
         context['pj_no'] = self.request.GET.get('pj_no')
+        context['new_list'] = self._set_list(context=context)
         return context
+    
+    def _set_list(self, context: dict):
+        dic   = dict()
+        # データ取得
+        data1=list(context['TKntiDtl_list'].values())
+        data2=context['month_days']
+        curr=context['month_current']
+        # 勤怠明細QuerySet ⇒ 辞書に変換
+        for rec in data1:
+            dic[rec['knti_dt']] = rec
+        # カレンダー日付リストより、データなしの日付を辞書に追加
+        for week in data2:
+            for day in week:
+                if day.month == curr.month:
+                    if dic.get(day) is None:
+                        dic[day] = {'syn_cd':'','knti_dt':day}
+        # ソート ※itemsを使用するのでソート後はタプルになる
+        dic_sort = sorted(dic.items(), key=lambda x:x[0])
+        # 再度、辞書に変換
+        dic_new  = dict((x,y) for x, y in dic_sort)
+
+        return dic_new
 
 #----------------------------------------
 #--- プロジェクト管理画面

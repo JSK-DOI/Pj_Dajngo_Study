@@ -16,7 +16,7 @@
                 <td>{{item.syn_nm_s_kj}}</td>
                 <td>{{item.syn_nm_s_kn}}</td>
                 <td>{{item.e_mail_adr}}</td>
-                
+                <td><a href="{% url 'muserupdate' item.pk %}">編集</a></td>
             </tr>
             {% endfor %}
     {{ form.as_p }}

@@ -15,4 +15,12 @@ urlpatterns = [
     path('muser_list/', views.MUserList.as_view(), name="muserlist"),
     path('muser_detail/<str:pk>/', views.MUserDetail.as_view(), name="muserdetail"),
     path('muser_create/', views.MUserCreate.as_view(),name="musercreate"),
+    path('calendarnyuryoku/',
+        views.CalendarNyuryoku.as_view(), name='calendarnyuryoku'
+    ),
+    path(
+        'calendarnyuryoku/<int:year>/<int:month>/',
+        views.CalendarNyuryoku.as_view(), name='calendarnyuryoku'
+    ), 
+    path('muser_update/<str:pk>',views.MUsrUpdate.as_view(),name='muserupdate'),
 ]

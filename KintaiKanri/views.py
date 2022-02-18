@@ -5,7 +5,7 @@ from django.views.generic.edit import CreateView, FormView, UpdateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from .models import TKntiDtl, MUsr, MPjKnr, MClndr
-from .forms import KintaiNyuryokuForm, KintaiListTopForm, PjKanriNyuryokuForm, CalendarNyuryokuForm   
+from .forms import KintaiNyuryokuForm, KintaiListTopForm, PjKanriNyuryokuForm, CalendarNyuryokuForm, OtameshiForm
 from .mixins import MonthCalendarMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
@@ -14,13 +14,18 @@ from datetime import datetime, date
 from django.db.models import Q 
 from django.shortcuts import render,redirect
 from . import mixins
+import MySQLdb
+from django.db import connection
+from django.db.utils import IntegrityError
 
 def mainmenu(request):
   return render(request, 'KintaiKanri/Mainmenu.html')
 
-class KintaiNyuryoku(CreateView):
+class KintaiNyuryoku(FormView):
     model = TKntiDtl
     form_class = KintaiNyuryokuForm
+    template_name = 'KintaiKanri/tkntidtl_form.html'
+    
 
 class KintaiListTop(FormView):
     form_class = KintaiListTopForm
@@ -206,3 +211,40 @@ class MUsrUpdate(UpdateView):
     # ---
     success_url = reverse_lazy('muserlist')
 
+
+class otameshi(generic.View):
+    form = OtameshiForm()
+    template_name = 'KintaiKanri/otameshi.html'
+
+    def get(self, request, **kwargs):
+        context = {'form': self.form}
+        return render(request, self.template_name, context)
+    def post(self, request, **kwargs):
+        if request.method == 'POST':
+            form = OtameshiForm(request.POST)
+            if form.is_valid():
+                syn_cd = request.POST["syn_cd"]
+                knti_dt = request.POST["knti_dt"]
+                pj_no = request.POST["pj_no"]
+                knti_dt = str(knti_dt).replace('-', '/')
+
+                sqlxx = "INSERT INTO t_knti_dtl VALUES ('" + syn_cd + "', '" + knti_dt + "', '"+ pj_no +"', null, null, null, null, null, null) "
+                print(sqlxx)
+                #TKntiDtl.objects.raw(sqlxx)
+                try:
+                    with connection.cursor() as cursor:
+                        cursor.execute(sqlxx)
+                except IntegrityError:
+                    print('プライマリキー重複')
+                    return HttpResponseRedirect('http://127.0.0.1:8000/primalyerror/')
+
+                return mainmenu(request)
+            else:
+                print('ERROR FORM INVALID')
+
+        context = {'form': form}
+        return render(request, self.template_name, context)
+
+
+def primalyerror(request):
+  return render(request, 'KintaiKanri/primalyerror.html')

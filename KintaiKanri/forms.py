@@ -36,3 +36,25 @@ class CalendarNyuryokuForm(forms.ModelForm):
         }
 
 
+
+class OtameshiForm(forms.Form):
+    syn_cd = forms.CharField(
+        label = '社員CD',
+        required = False,
+        max_length = 6,
+        widget = forms.TextInput(attrs={'size':10}),
+    )
+    knti_dt = forms.DateField(
+        label = '勤怠日付',
+        required = False,
+        widget = forms.DateInput(attrs={'type':'date'}),
+        input_formats = ['%Y-%m-%d'],  
+        error_messages={
+            'invalid': '報告日を正しく入力してください。',
+        },
+    )
+    pj_no = forms.CharField(
+        label = 'プロジェクトNo',
+        required = False,
+        max_length = 8,
+    )

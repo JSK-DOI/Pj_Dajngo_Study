@@ -1,0 +1,17 @@
+
+{% block main %}
+<h2>勤怠入力</h2>
+<form method="post">
+    {% csrf_token %}
+
+
+
+
+
+
+
+
+    {{ form.as_p }}
+    <input type="submit" value="投稿" class="btn btn-primary" />
+</form>
+{% endblock %}

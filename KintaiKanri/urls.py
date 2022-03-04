@@ -23,4 +23,6 @@ urlpatterns = [
         views.CalendarNyuryoku.as_view(), name='calendarnyuryoku'
     ), 
     path('muser_update/<str:pk>',views.MUsrUpdate.as_view(),name='muserupdate'),
+    path('otameshi/', views.otameshi.as_view(), name = 'otameshi'),
+    path('primalyerror/', views.primalyerror,  name='primalyerror'),
 ]

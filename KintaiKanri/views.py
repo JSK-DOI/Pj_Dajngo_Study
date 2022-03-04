@@ -159,6 +159,10 @@ class MUsrUpdate(UpdateView):
     template_name = "KintaiKanri/muser_update.html"
     # 画面上に表示させる項目の指定
     fields = ('syn_cd','syn_nm_s_kj','syn_nm_n_kj','syn_nm_s_kn','syn_nm_n_kn','nysy_dt','pj_add_dt','pj_del_dt','e_mail_adr','syn_kngn','lgn_pss','syn_kbn')
-    # ---
-    success_url = reverse_lazy('muserlist')
+    # 好み次第で変更する
+    # 案1:更新後、ユーザー一覧に遷移
+    ## success_url = reverse_lazy('muserlist')
+    # 案2:更新後、自分自身の詳細画面に遷移
+    def get_success_url(self):
+        return reverse_lazy('muserdetail', kwargs={'pk': self.kwargs['pk']})
 

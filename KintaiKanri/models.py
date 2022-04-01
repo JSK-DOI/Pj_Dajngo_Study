@@ -65,6 +65,9 @@ class MUsr(models.Model):
     class Meta:
         managed = False
         db_table = 'm_usr'
+        
+    def get_absolute_url(self): 
+        return reverse_lazy("muserlist") # "戻る"のリダイレクト先
 
 
 class TKnti(models.Model):

@@ -12,8 +12,16 @@
 <p>パスワード：{{ object.lgn_pss }} </p>
 <p>社員区分：{{ object.syn_kbn }} </p>
 
-<input type="submit" value="編集">
-<input type="submit" value="戻る">
+<!-- ユーザー編集画面にうつる -->
+<form action="{% url 'muserupdate' object.syn_cd %}" method="get">{% csrf_token %}
+    <input type="submit" value="編集">
+</form>
+
+
+<!-- ユーザー管理画面に戻る -->
+<form action="{% url "muserlist" %}" method="get">{% csrf_token %}
+    <input type="submit" value="戻る">
+</form>
 
 
 
